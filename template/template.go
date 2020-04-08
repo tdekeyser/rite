@@ -4,14 +4,14 @@ import (
 	"github.com/tdekeyser/rite/domain"
 	"html/template"
 	"net/http"
+	"os"
 )
 
-const (
-	dir   = "template/"
-	Table = "table.html"
-)
+const Table = "table.html"
 
-var templates = template.Must(template.ParseFiles(dir + Table))
+var templateDir = os.Getenv("RITE_TEMPLATE_DIR")
+
+var templates = template.Must(template.ParseFiles(templateDir + Table))
 
 func Render(w http.ResponseWriter, tmpl string, r *domain.Rite) {
 	err := templates.ExecuteTemplate(w, tmpl, r)
