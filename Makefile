@@ -10,4 +10,4 @@ test:	build
 	go test ./...
 
 clean:
-	rm -f rite rite_* imports.txt
+	rm -f rite

@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/tdekeyser/rite/domain"
 	"github.com/tdekeyser/rite/filestorage"
-	"html/template"
+	"github.com/tdekeyser/rite/template"
 	"log"
 	"net/http"
 )
@@ -16,17 +16,9 @@ const header = `
 `
 
 var (
-	version   = "0.0"
-	templates = template.Must(template.ParseFiles("table.html"))
-	db        domain.Storage
+	version = "0.0"
+	db      domain.Storage
 )
-
-func renderTemplate(w http.ResponseWriter, tmpl string, r *domain.Rite) {
-	err := templates.ExecuteTemplate(w, tmpl, r)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/v/"):]
@@ -34,7 +26,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	if rite == nil {
 		rite = &domain.Rite{Title: title}
 	}
-	renderTemplate(w, "table.html", rite)
+	template.Render(w, template.Table, rite)
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
