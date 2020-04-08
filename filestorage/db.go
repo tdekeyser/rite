@@ -10,7 +10,7 @@ import (
 	"log"
 )
 
-const dbName = "rite_filedb.json"
+var dbName = "rite_filedb.json"
 
 type db struct {
 	loc  string
@@ -57,7 +57,7 @@ func (conn *db) saveToDisk() error {
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(conn.loc + dbName, data, 0600)
+	return ioutil.WriteFile(conn.loc+dbName, data, 0600)
 }
 
 func (conn *db) Get(title string) *domain.Rite {
