@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/tdekeyser/rite/domain"
-	"github.com/tdekeyser/rite/filestorage"
-	"github.com/tdekeyser/rite/template"
+	"github.com/tdekeyser/rite/adapter/filestorage"
+	"github.com/tdekeyser/rite/adapter/webapp"
+	"github.com/tdekeyser/rite/core/cmd"
 	"log"
 	"net/http"
 )
@@ -15,42 +15,20 @@ const header = `
 ┗┛┗┻━┻━┛   v%v
 `
 
-var (
-	version = "0.0"
-	db      domain.Storage
-)
-
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/v/"):]
-	rite := db.Get(title)
-	if rite == nil {
-		rite = &domain.Rite{Title: title}
-	}
-	template.Render(w, template.Table, rite)
-}
-
-func saveHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/s/"):]
-	body := r.FormValue("body")
-	rite := &domain.Rite{Title: title, Body: []byte(body)}
-	err := db.Save(rite)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-	http.Redirect(w, r, "/v/"+title, http.StatusFound)
-}
+var version = "0.0"
 
 func main() {
 	log.Printf(header, version)
 
-	var err error
-	db, err = filestorage.Open("")
+	db, err := filestorage.Open("")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	http.HandleFunc("/v/", viewHandler)
-	http.HandleFunc("/s/", saveHandler)
+	m := cmd.NewModule(db)
+
+	http.HandleFunc("/v/", webapp.NewHandler(webapp.ViewHandler, m))
+	http.HandleFunc("/s/", webapp.NewHandler(webapp.SaveHandler, m))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

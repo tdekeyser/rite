@@ -3,7 +3,7 @@ package filestorage
 import (
 	"encoding/json"
 	"github.com/stretchr/testify/assert"
-	"github.com/tdekeyser/rite/domain"
+	"github.com/tdekeyser/rite/core/domain"
 	"io/ioutil"
 	"os"
 	"testing"

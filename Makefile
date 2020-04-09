@@ -7,7 +7,7 @@ build:
 	go build -ldflags "-X main.version=$(version)" -o rite main.go
 
 test:	build
-	export RITE_TEMPLATE_DIR=template/
+	export RITE_TEMPLATE_DIR=adapter/webapp/templates/
 	go test ./...
 
 clean:

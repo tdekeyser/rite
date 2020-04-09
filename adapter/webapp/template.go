@@ -1,7 +1,7 @@
-package template
+package webapp
 
 import (
-	"github.com/tdekeyser/rite/domain"
+	"github.com/tdekeyser/rite/core/domain"
 	"html/template"
 	"net/http"
 	"os"
@@ -13,7 +13,7 @@ var templateDir = os.Getenv("RITE_TEMPLATE_DIR")
 
 var templates = template.Must(template.ParseFiles(templateDir + Table))
 
-func Render(w http.ResponseWriter, tmpl string, r *domain.Rite) {
+func renderTemplate(w http.ResponseWriter, tmpl string, r *domain.Rite) {
 	err := templates.ExecuteTemplate(w, tmpl, r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

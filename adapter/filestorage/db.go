@@ -5,7 +5,7 @@ package filestorage
 
 import (
 	"encoding/json"
-	"github.com/tdekeyser/rite/domain"
+	"github.com/tdekeyser/rite/core/domain"
 	"io/ioutil"
 	"log"
 )

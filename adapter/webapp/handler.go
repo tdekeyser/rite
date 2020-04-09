@@ -1,0 +1,30 @@
+package webapp
+
+import (
+	"github.com/tdekeyser/rite/core/cmd"
+	"net/http"
+)
+
+func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Module), c *cmd.Module) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		h(w, r, c)
+	}
+}
+
+func ViewHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
+	title := r.URL.Path[len("/v/"):]
+	rite := m.GetRite(title)
+	renderTemplate(w, Table, rite)
+}
+
+func SaveHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
+	title := r.URL.Path[len("/s/"):]
+	body := r.FormValue("body")
+
+	err := m.SaveRite(title, body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	http.Redirect(w, r, "/v/"+title, http.StatusFound)
+}

@@ -1,6 +1,6 @@
 package domain
 
-type Storage interface {
+type RiteRepository interface {
 
 	// Save stores the input Rite such that it can be
 	// retrieved again later.
