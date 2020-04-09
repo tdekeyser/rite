@@ -27,8 +27,8 @@ func main() {
 
 	m := cmd.NewModule(db)
 
-	http.HandleFunc("/v/", webapp.NewHandler(webapp.ViewHandler, m))
-	http.HandleFunc("/s/", webapp.NewHandler(webapp.SaveHandler, m))
+	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, m))
+	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, m))
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

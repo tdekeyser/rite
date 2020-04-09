@@ -5,6 +5,11 @@ import (
 	"net/http"
 )
 
+const (
+	View = "/v/"
+	Save = "/s/"
+)
+
 func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Module), c *cmd.Module) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		h(w, r, c)
@@ -12,19 +17,21 @@ func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Module), c *cmd.
 }
 
 func ViewHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
-	title := r.URL.Path[len("/v/"):]
-	rite := m.GetRite(title)
+	t := r.URL.Path[len(View):]
+
+	rite := m.GetRite(t)
+
 	renderTemplate(w, Table, rite)
 }
 
 func SaveHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
-	title := r.URL.Path[len("/s/"):]
-	body := r.FormValue("body")
+	t := r.URL.Path[len(Save):]
+	b := r.FormValue("body")
 
-	err := m.SaveRite(title, body)
+	err := m.SaveRite(t, b)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	http.Redirect(w, r, "/v/"+title, http.StatusFound)
+	http.Redirect(w, r, "/v/"+t, http.StatusFound)
 }
