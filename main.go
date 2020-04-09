@@ -30,5 +30,7 @@ func main() {
 	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, m))
 	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, m))
 
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("adapter/webapp/assets"))))
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -1,7 +1,20 @@
 <html>
-<h4>{{.Title}}</h4>
-<form action="/s/{{.Title}}" method="POST">
-    <div><textarea name="body" rows="20" cols="80">{{printf "%s" .Body}}</textarea></div>
-    <div><input type="submit" value="Save"></div>
-</form>
+<link rel="stylesheet" href="/assets/rite.css">
+
+<div id="body" align="center">
+    <div id="page">
+        <h4 align="center">{{.Title}}</h4>
+        <form action="/s/{{.Title}}" method="POST">
+            <textarea id="tablebody" name="body">{{printf "%s" .Body}}</textarea>
+            <input type="submit" value="Save">
+        </form>
+    </div>
+
+</div>
+<div id="logo">
+╋╋┏┳┓
+┏┳╋┫┗┳━┓
+┃┏┫┃┏┫┻┫
+┗┛┗┻━┻━┛
+</div>
 </html>
