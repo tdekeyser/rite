@@ -9,9 +9,10 @@ import (
 
 const Table = "table.html"
 
-var templateDir = os.Getenv("RITE_TEMPLATE_DIR")
+var appDir = os.Getenv("RITE_APP_DIR")
 
-var templates = template.Must(template.ParseFiles(templateDir + Table))
+var AssetHandler = http.StripPrefix("/assets/", http.FileServer(http.Dir(appDir+"assets/")))
+var templates = template.Must(template.ParseFiles(appDir + "templates/" + Table))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, r *domain.Rite) {
 	err := templates.ExecuteTemplate(w, tmpl, r)
