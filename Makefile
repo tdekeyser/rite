@@ -6,7 +6,7 @@ version = $(base_version).$(commit_count)
 build:
 	go build -ldflags "-X main.version=$(version)" -o $(GOROOT)/bin/rite main.go
 
-test:	install
+test:	build
 	export RITE_APP_DIR=adapter/webapp/
 	go test ./...
 
