@@ -14,11 +14,12 @@ const header = `
 ┃┏┫┃┏┫┻┫ 
 ┗┛┗┻━┻━┛   v%v
 `
+const version = "0.0"
 
-var version = "0.0"
+var commits = ".0"
 
 func main() {
-	log.Printf(header, version)
+	log.Printf(header, version+commits)
 
 	db, err := filestorage.Open("")
 	if err != nil {
