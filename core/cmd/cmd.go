@@ -22,3 +22,7 @@ func (m *Module) GetRite(title string) *domain.Rite {
 	}
 	return r
 }
+
+func (m *Module) GetAllRiteTitles() []string {
+	return m.db.GetIds()
+}

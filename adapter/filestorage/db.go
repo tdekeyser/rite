@@ -68,3 +68,11 @@ func (conn *db) Get(title string) *domain.Rite {
 	}
 	return nil
 }
+
+func (conn *db) GetIds() []string {
+	var ts []string
+	for _, r := range conn.data {
+		ts = append(ts, r.Title)
+	}
+	return ts
+}

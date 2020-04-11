@@ -79,3 +79,15 @@ func TestDb_Get_does_not_return_copy(t *testing.T) {
 
 	assert.Equal(t, conn.data[0].Body, []byte("something else"))
 }
+
+func TestDb_GetAll(t *testing.T) {
+	dbName = dbTest
+	rs := []domain.Rite{
+		{Title: "1", Body: []byte("hello")},
+		{Title: "2", Body: []byte("other text")},
+	}
+	ts := []string{"1", "2"}
+	conn := db{data: rs}
+
+	assert.Equal(t, ts, conn.GetIds())
+}

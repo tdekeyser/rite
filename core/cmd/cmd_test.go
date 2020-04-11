@@ -44,6 +44,17 @@ func TestModule_SaveRite(t *testing.T) {
 	m.AssertExpectations(t)
 }
 
+func TestModule_GetAllRites(t *testing.T) {
+	ts := []string{"1", "2"}
+	m := new(RiteRepositoryMock)
+	c := Module{db: m}
+
+	m.On("GetIds").Return(ts)
+
+	assert.Equal(t, ts, c.GetAllRiteTitles())
+	m.AssertExpectations(t)
+}
+
 type RiteRepositoryMock struct {
 	mock.Mock
 }
@@ -60,4 +71,9 @@ func (db *RiteRepositoryMock) Get(title string) *domain.Rite {
 		return r.(*domain.Rite)
 	}
 	return nil
+}
+
+func (db *RiteRepositoryMock) GetIds() []string {
+	v := db.Called()
+	return v.Get(0).([]string)
 }

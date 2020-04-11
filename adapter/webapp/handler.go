@@ -8,6 +8,7 @@ import (
 const (
 	View = "/v/"
 	Save = "/s/"
+	All  = "/a/"
 )
 
 func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Module), c *cmd.Module) func(http.ResponseWriter, *http.Request) {
@@ -34,4 +35,9 @@ func SaveHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
 	}
 
 	http.Redirect(w, r, "/v/"+t, http.StatusFound)
+}
+
+func TitlesHandler(w http.ResponseWriter, _ *http.Request, m *cmd.Module) {
+	ts := m.GetAllRiteTitles()
+	renderTemplate(w, Overview, ts)
 }

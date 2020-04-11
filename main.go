@@ -29,6 +29,7 @@ func main() {
 
 	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, m))
 	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, m))
+	http.HandleFunc(webapp.All, webapp.NewHandler(webapp.TitlesHandler, m))
 
 	http.Handle("/assets/", webapp.AssetHandler)
 

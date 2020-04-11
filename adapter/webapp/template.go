@@ -1,21 +1,31 @@
 package webapp
 
 import (
-	"github.com/tdekeyser/rite/core/domain"
 	"html/template"
 	"net/http"
 	"os"
 )
 
-const Table = "table.html"
+const (
+	header   = "header.html"
+	footer   = "footer.html"
+	Table    = "table.html"
+	Overview = "overview.html"
+)
 
 var appDir = os.Getenv("RITE_APP_DIR")
 
 var AssetHandler = http.StripPrefix("/assets/", http.FileServer(http.Dir(appDir+"assets/")))
-var templates = template.Must(template.ParseFiles(appDir + "templates/" + Table))
 
-func renderTemplate(w http.ResponseWriter, tmpl string, r *domain.Rite) {
-	err := templates.ExecuteTemplate(w, tmpl, r)
+var templates = template.Must(template.ParseFiles(
+	appDir+"templates/"+header,
+	appDir+"templates/"+footer,
+	appDir+"templates/"+Table,
+	appDir+"templates/"+Overview,
+))
+
+func renderTemplate(w http.ResponseWriter, tmpl string, d interface{}) {
+	err := templates.ExecuteTemplate(w, tmpl, d)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

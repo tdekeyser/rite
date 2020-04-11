@@ -1,0 +1,17 @@
+<html>
+{{template "header.html"}}
+
+<div id="body" align="center">
+    <div id="page">
+        <h4 align="center">/a/</h4>
+        {{range .}}
+            <div class="overview">
+                <a href="/v/{{.}}">{{.}}</a>
+            </div>
+        {{end}}
+    </div>
+
+</div>
+
+{{template "footer.html"}}
+</html>
