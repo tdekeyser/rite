@@ -17,22 +17,22 @@ type db struct {
 	data []domain.Rite
 }
 
-func NewDb(loc string) *db {
+func Open(location string) (*db, error) {
+	conn, err := openExisting(location)
+	if err != nil {
+		log.Print("Creating new database.")
+		return newDb(location), nil
+	}
+	log.Printf("Found existing database with %v rite(s).", len(conn.data))
+	return conn, err
+}
+
+func newDb(loc string) *db {
 	err := ioutil.WriteFile(loc+dbName, []byte{}, 0600)
 	if err != nil {
 		panic("Error initiating database: " + err.Error())
 	}
 	return &db{loc: loc}
-}
-
-func Open(location string) (*db, error) {
-	conn, err := openExisting(location)
-	if err != nil {
-		log.Print("Creating new database.")
-		return NewDb(location), nil
-	}
-	log.Printf("Found existing database with %v rite(s).", len(conn.data))
-	return conn, err
 }
 
 func openExisting(loc string) (*db, error) {
