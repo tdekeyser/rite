@@ -20,7 +20,7 @@ var version = "0.0"
 func main() {
 	log.Printf(header, version)
 
-	db, err := filestorage.Open("")
+	db, err := filestorage.Open(".rite/")
 	if err != nil {
 		log.Fatal(err)
 	}

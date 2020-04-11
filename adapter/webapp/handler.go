@@ -31,10 +31,10 @@ func SaveHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
 
 	err := m.SaveRite(t, b)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.NotFound(w, r)
+	} else {
+		http.Redirect(w, r, "/v/"+t, http.StatusFound)
 	}
-
-	http.Redirect(w, r, "/v/"+t, http.StatusFound)
 }
 
 func TitlesHandler(w http.ResponseWriter, _ *http.Request, m *cmd.Module) {

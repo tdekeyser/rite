@@ -17,13 +17,21 @@ type db struct {
 	data []domain.Rite
 }
 
+func NewDb(loc string) *db {
+	err := ioutil.WriteFile(loc+dbName, []byte{}, 0600)
+	if err != nil {
+		panic("Error initiating database: " + err.Error())
+	}
+	return &db{loc: loc}
+}
+
 func Open(location string) (*db, error) {
 	conn, err := openExisting(location)
 	if err != nil {
-		log.Print("Existing data not found. Creating new database file.")
-		return &db{loc: location}, nil
+		log.Print("Creating new database.")
+		return NewDb(location), nil
 	}
-	log.Printf("Found existing database with %v rites.", len(conn.data))
+	log.Printf("Found existing database with %v rite(s).", len(conn.data))
 	return conn, err
 }
 
@@ -36,6 +44,7 @@ func openExisting(loc string) (*db, error) {
 	var data []domain.Rite
 	err = json.Unmarshal(f, &data)
 	if err != nil {
+		log.Printf("Could not unmarshal data: %v", err)
 		return nil, err
 	}
 
@@ -49,7 +58,11 @@ func (conn *db) Save(r *domain.Rite) error {
 	} else {
 		conn.data = append(conn.data, *r)
 	}
-	return conn.saveToDisk()
+	err := conn.saveToDisk()
+	if err != nil {
+		log.Printf("Could not save data to disk: %v", err)
+	}
+	return err
 }
 
 func (conn *db) saveToDisk() error {
