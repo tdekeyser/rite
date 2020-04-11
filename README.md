@@ -1,5 +1,7 @@
 # rite
 
+![Go](https://github.com/tdekeyser/rite/workflows/Go/badge.svg?branch=master)
+
 Run the package locally in Docker:
 
 	docker run -p 8080:8080 golang sh -c \
