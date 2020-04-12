@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/mock"
 	"github.com/tdekeyser/rite/core/domain"
 )
@@ -10,6 +11,7 @@ type RiteRepositoryMock struct {
 }
 
 func (db *RiteRepositoryMock) Save(r *domain.Rite) error {
+	r.Id = uuid.Nil
 	v := db.Called(r)
 	return v.Error(0)
 }
