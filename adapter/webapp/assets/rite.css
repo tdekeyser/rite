@@ -10,6 +10,11 @@ html, body {
     height: 90%;
 }
 
+#body {
+    display: flex;
+    justify-content: center;
+}
+
 #page {
     width: 60%;
     height: 100%;
@@ -43,6 +48,12 @@ input[type=submit] {
     display: inline-block;
     font-size: 100%;
     font-family: Courier;
+}
+
+#tags {
+    font-family: Courier;
+    color: #e9e9e9;
+    float: right;
 }
 
 #logo {

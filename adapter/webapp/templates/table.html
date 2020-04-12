@@ -6,11 +6,22 @@
     <div id="page">
         <h4 align="center">{{.Title}}</h4>
         <form action="/s/{{.Title}}" method="POST">
-            <textarea id="tablebody" name="body">{{printf "%s" .Body}}</textarea>
+            <textarea name="body">{{printf "%s" .Body}}</textarea>
             <input type="submit" value="Save">
         </form>
     </div>
 
+    <div id="tags">
+        {{range .Tags}}
+            <div class="tag">{{.}}</div>
+        {{end}}
+        <div>
+            <form action="/s/{{.Title}}" method="POST">
+                <input type="text" name="tag">
+                <input type="submit" value="Add tag">
+            </form>
+        </div>
+    </div>
 </div>
 
 {{template "footer.html"}}

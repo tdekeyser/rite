@@ -26,12 +26,23 @@ func ViewHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 func SaveHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 	t := r.URL.Path[len(Save):]
 	b := r.FormValue("body")
-	err := cmd.SaveRiteCommand(t, b, e)
-	if err != nil {
-		http.NotFound(w, r)
-	} else {
-		http.Redirect(w, r, "/v/"+t, http.StatusFound)
+	tg := r.FormValue("tag")
+
+	if tg != "" {
+		err := cmd.AddTagCommand(t, tg, e)
+		if err != nil {
+			http.NotFound(w, r)
+		}
 	}
+
+	if b != "" {
+		err := cmd.UpdateBodyCommand(t, b, e)
+		if err != nil {
+			http.NotFound(w, r)
+		}
+	}
+
+	http.Redirect(w, r, "/v/"+t, http.StatusFound)
 }
 
 func TitlesHandler(w http.ResponseWriter, _ *http.Request, e *cmd.Env) {
