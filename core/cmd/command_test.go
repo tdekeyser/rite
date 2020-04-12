@@ -28,3 +28,18 @@ func TestModule_GetAllRites(t *testing.T) {
 	assert.Equal(t, ts, GetAllTitlesQuery(e))
 	m.AssertExpectations(t)
 }
+
+func TestAddTagCommand(t *testing.T) {
+	m := new(RiteRepositoryMock)
+	e := NewEnv(m)
+	r := domain.NewRite("1", "hello there")
+	rWithTag := r
+	rWithTag.Tags = []string{"a-tag"}
+
+	m.On("Get", "1").Return(r)
+	m.On("Save", rWithTag).Return(nil)
+
+	err := AddTagCommand("1", "a-tag", e)
+	assert.NoError(t, err)
+	m.AssertExpectations(t)
+}

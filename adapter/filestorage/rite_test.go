@@ -14,7 +14,7 @@ const dbTest = "test_db.json"
 func TestDb_Save(t *testing.T) {
 	dbName = dbTest
 	conn := RiteRepository{DB: &dataStore{}}
-	r := domain.Rite{Title: "1", Body: []byte("hello")}
+	r := domain.Rite{Title: "1", Body: []byte("hello"), Tags: []string{"a-tag"}}
 
 	err := conn.Save(&r)
 	assert.NoError(t, err)
@@ -27,7 +27,7 @@ func TestDb_Save(t *testing.T) {
 func TestDb_Save_multiple(t *testing.T) {
 	dbName = dbTest
 	conn := RiteRepository{DB: &dataStore{}}
-	r1 := domain.Rite{Title: "1", Body: []byte("hello")}
+	r1 := domain.Rite{Title: "1", Body: []byte("hello"), Tags: []string{"a-tag"}}
 	r2 := domain.Rite{Title: "2", Body: []byte("hi there")}
 
 	assert.NoError(t, conn.Save(&r1))

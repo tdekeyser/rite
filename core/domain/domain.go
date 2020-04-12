@@ -2,14 +2,17 @@ package domain
 
 import "github.com/google/uuid"
 
+type Tag string
+
 type Rite struct {
 	Id    uuid.UUID `json:"id"`
 	Title string    `json:"title"`
 	Body  []byte    `json:"body"`
+	Tags  []string  `json:"tags"`
 }
 
 func NewRite(title string, body string) *Rite {
-	return &Rite{uuid.New(), title, []byte(body)}
+	return &Rite{Id: uuid.New(), Title: title, Body: []byte(body)}
 }
 
 type RiteRepository interface {

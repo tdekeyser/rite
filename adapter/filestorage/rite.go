@@ -17,6 +17,7 @@ func (repo *RiteRepository) Save(r *domain.Rite) error {
 	prev := repo.Get(r.Title)
 	if prev != nil {
 		prev.Body = r.Body
+		prev.Tags = r.Tags
 	} else {
 		repo.DB.Rites = append(repo.DB.Rites, *r)
 	}
