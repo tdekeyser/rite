@@ -26,7 +26,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	m := cmd.NewModule(db)
+	m := cmd.NewEnv(db)
 
 	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, m))
 	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, m))

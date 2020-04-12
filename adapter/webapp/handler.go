@@ -11,25 +11,22 @@ const (
 	All  = "/a/"
 )
 
-func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Module), c *cmd.Module) func(http.ResponseWriter, *http.Request) {
+func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Env), c *cmd.Env) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		h(w, r, c)
 	}
 }
 
-func ViewHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
+func ViewHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 	t := r.URL.Path[len(View):]
-
-	rite := m.GetRite(t)
-
+	rite := cmd.GetRiteQuery(t, e)
 	renderTemplate(w, Table, rite)
 }
 
-func SaveHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
+func SaveHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 	t := r.URL.Path[len(Save):]
 	b := r.FormValue("body")
-
-	err := m.SaveRite(t, b)
+	err := cmd.SaveRiteCommand(t, b, e)
 	if err != nil {
 		http.NotFound(w, r)
 	} else {
@@ -37,7 +34,7 @@ func SaveHandler(w http.ResponseWriter, r *http.Request, m *cmd.Module) {
 	}
 }
 
-func TitlesHandler(w http.ResponseWriter, _ *http.Request, m *cmd.Module) {
-	ts := m.GetAllRiteTitles()
+func TitlesHandler(w http.ResponseWriter, _ *http.Request, e *cmd.Env) {
+	ts := cmd.GetAllTitlesQuery(e)
 	renderTemplate(w, Overview, ts)
 }
