@@ -26,11 +26,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	m := cmd.NewEnv(db)
+	r := filestorage.NewRiteRepository(db)
 
-	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, m))
-	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, m))
-	http.HandleFunc(webapp.All, webapp.NewHandler(webapp.TitlesHandler, m))
+	e := cmd.NewEnv(r)
+
+	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, e))
+	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, e))
+	http.HandleFunc(webapp.All, webapp.NewHandler(webapp.TitlesHandler, e))
 
 	http.Handle("/assets/", webapp.AssetHandler)
 

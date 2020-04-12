@@ -13,7 +13,7 @@ const dbTest = "test_db.json"
 
 func TestDb_Save(t *testing.T) {
 	dbName = dbTest
-	conn := db{}
+	conn := RiteRepository{DB: &dataStore{}}
 	r := domain.Rite{Title: "1", Body: []byte("hello")}
 
 	err := conn.Save(&r)
@@ -26,7 +26,7 @@ func TestDb_Save(t *testing.T) {
 
 func TestDb_Save_multiple(t *testing.T) {
 	dbName = dbTest
-	conn := db{}
+	conn := RiteRepository{DB: &dataStore{}}
 	r1 := domain.Rite{Title: "1", Body: []byte("hello")}
 	r2 := domain.Rite{Title: "2", Body: []byte("hi there")}
 
@@ -40,7 +40,7 @@ func TestDb_Save_multiple(t *testing.T) {
 
 func TestDb_Save_overrides_same_title(t *testing.T) {
 	dbName = dbTest
-	conn := db{}
+	conn := RiteRepository{DB: &dataStore{}}
 	r1 := domain.Rite{Title: "1", Body: []byte("hello")}
 	r2 := domain.Rite{Title: "1", Body: []byte("other text")}
 
@@ -65,19 +65,19 @@ func assertDbContainsExactly(t *testing.T, r ...domain.Rite) {
 
 func TestDb_Get(t *testing.T) {
 	r := domain.Rite{Title: "1", Body: []byte("hello")}
-	conn := db{data: []domain.Rite{r}}
+	conn := RiteRepository{DB: &dataStore{rites: []domain.Rite{r}}}
 
 	assert.Equal(t, r, *conn.Get("1"))
 }
 
 func TestDb_Get_does_not_return_copy(t *testing.T) {
 	r := domain.Rite{Title: "1", Body: []byte("hello")}
-	conn := db{data: []domain.Rite{r}}
+	conn := RiteRepository{DB: &dataStore{rites: []domain.Rite{r}}}
 	actual := conn.Get("1")
 
 	actual.Body = []byte(("something else"))
 
-	assert.Equal(t, conn.data[0].Body, []byte("something else"))
+	assert.Equal(t, conn.DB.rites[0].Body, []byte("something else"))
 }
 
 func TestDb_GetAll(t *testing.T) {
@@ -87,7 +87,7 @@ func TestDb_GetAll(t *testing.T) {
 		{Title: "2", Body: []byte("other text")},
 	}
 	ts := []string{"1", "2"}
-	conn := db{data: rs}
+	conn := RiteRepository{DB: &dataStore{rites: rs}}
 
 	assert.Equal(t, ts, conn.GetIds())
 }
