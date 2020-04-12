@@ -13,8 +13,8 @@ import (
 var dbName = "rite_filedb.json"
 
 type dataStore struct {
-	loc   string
-	rites []domain.Rite
+	Loc   string        `json:"location"`
+	Rites []domain.Rite `json:"rites"`
 }
 
 func Open(location string) (*dataStore, error) {
@@ -23,7 +23,7 @@ func Open(location string) (*dataStore, error) {
 		log.Print("Creating new database.")
 		return newDb(location), nil
 	}
-	log.Printf("Found existing database with %v rite(s).", len(conn.rites))
+	log.Printf("Found existing database with %v rite(s).", len(conn.Rites))
 	return conn, err
 }
 
@@ -32,7 +32,7 @@ func newDb(loc string) *dataStore {
 	if err != nil {
 		panic("Error initiating database: " + err.Error())
 	}
-	return &dataStore{loc: loc}
+	return &dataStore{Loc: loc}
 }
 
 func openExisting(loc string) (*dataStore, error) {
@@ -41,20 +41,19 @@ func openExisting(loc string) (*dataStore, error) {
 		return nil, err
 	}
 
-	var data []domain.Rite
-	err = json.Unmarshal(f, &data)
+	var d *dataStore
+	err = json.Unmarshal(f, d)
 	if err != nil {
 		log.Printf("Could not unmarshal rites: %v", err)
 		return nil, err
 	}
-
-	return &dataStore{loc, data}, nil
+	return d, nil
 }
 
-func (conn *dataStore) saveToDisk() error {
-	data, err := json.Marshal(conn.rites)
+func (ds *dataStore) saveToDisk() error {
+	d, err := json.Marshal(ds)
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(conn.loc+dbName, data, 0600)
+	return ioutil.WriteFile(ds.Loc+dbName, d, 0600)
 }

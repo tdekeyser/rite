@@ -18,19 +18,19 @@ func (repo *RiteRepository) Save(r *domain.Rite) error {
 	if prev != nil {
 		prev.Body = r.Body
 	} else {
-		repo.DB.rites = append(repo.DB.rites, *r)
+		repo.DB.Rites = append(repo.DB.Rites, *r)
 	}
 	err := repo.DB.saveToDisk()
 	if err != nil {
-		log.Printf("Could not save rites to disk: %v", err)
+		log.Printf("Could not save Rites to disk: %v", err)
 	}
 	return err
 }
 
 func (repo *RiteRepository) Get(title string) *domain.Rite {
-	for i, r := range repo.DB.rites {
+	for i, r := range repo.DB.Rites {
 		if title == r.Title {
-			return &repo.DB.rites[i]
+			return &repo.DB.Rites[i]
 		}
 	}
 	return nil
@@ -38,7 +38,7 @@ func (repo *RiteRepository) Get(title string) *domain.Rite {
 
 func (repo *RiteRepository) GetIds() []string {
 	var ts []string
-	for _, r := range repo.DB.rites {
+	for _, r := range repo.DB.Rites {
 		ts = append(ts, r.Title)
 	}
 	return ts

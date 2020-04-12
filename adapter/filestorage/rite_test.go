@@ -56,28 +56,28 @@ func assertDbContainsExactly(t *testing.T, r ...domain.Rite) {
 	f, err := ioutil.ReadFile(dbTest)
 	assert.NoError(t, err)
 
-	var actual []domain.Rite
+	var actual dataStore
 	err = json.Unmarshal(f, &actual)
 	assert.NoError(t, err)
 
-	assert.Equal(t, r, actual)
+	assert.Equal(t, r, actual.Rites)
 }
 
 func TestDb_Get(t *testing.T) {
 	r := domain.Rite{Title: "1", Body: []byte("hello")}
-	conn := RiteRepository{DB: &dataStore{rites: []domain.Rite{r}}}
+	conn := RiteRepository{DB: &dataStore{Rites: []domain.Rite{r}}}
 
 	assert.Equal(t, r, *conn.Get("1"))
 }
 
 func TestDb_Get_does_not_return_copy(t *testing.T) {
 	r := domain.Rite{Title: "1", Body: []byte("hello")}
-	conn := RiteRepository{DB: &dataStore{rites: []domain.Rite{r}}}
+	conn := RiteRepository{DB: &dataStore{Rites: []domain.Rite{r}}}
 	actual := conn.Get("1")
 
 	actual.Body = []byte(("something else"))
 
-	assert.Equal(t, conn.DB.rites[0].Body, []byte("something else"))
+	assert.Equal(t, conn.DB.Rites[0].Body, []byte("something else"))
 }
 
 func TestDb_GetAll(t *testing.T) {
@@ -87,7 +87,7 @@ func TestDb_GetAll(t *testing.T) {
 		{Title: "2", Body: []byte("other text")},
 	}
 	ts := []string{"1", "2"}
-	conn := RiteRepository{DB: &dataStore{rites: rs}}
+	conn := RiteRepository{DB: &dataStore{Rites: rs}}
 
 	assert.Equal(t, ts, conn.GetIds())
 }
