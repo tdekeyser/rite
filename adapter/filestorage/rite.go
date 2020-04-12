@@ -31,7 +31,7 @@ func (repo *RiteRepository) Get(title string) *domain.Rite {
 	return nil
 }
 
-func (repo *RiteRepository) GetIds() []string {
+func (repo *RiteRepository) GetTitles() []string {
 	var ts []string
 	for _, r := range repo.DB.Rites {
 		ts = append(ts, r.Title)

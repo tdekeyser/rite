@@ -11,5 +11,5 @@ func GetRiteQuery(title string, e *Env) *domain.Rite {
 }
 
 func GetAllTitlesQuery(e *Env) []string {
-	return e.rdb.GetIds()
+	return e.rdb.GetTitles()
 }

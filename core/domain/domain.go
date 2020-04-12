@@ -24,7 +24,7 @@ type RiteRepository interface {
 	// Get returns a Rite based on a string identifier.
 	Get(string) *Rite
 
-	// GetIds returns all unique identifiers associated
+	// GetTitles returns all unique identifiers associated
 	// with Rites in the repository.
-	GetIds() []string
+	GetTitles() []string
 }

@@ -25,7 +25,7 @@ func (db *RiteRepositoryMock) Get(title string) *domain.Rite {
 	return nil
 }
 
-func (db *RiteRepositoryMock) GetIds() []string {
+func (db *RiteRepositoryMock) GetTitles() []string {
 	v := db.Called()
 	return v.Get(0).([]string)
 }

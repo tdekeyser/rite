@@ -75,5 +75,5 @@ func TestDb_GetAll(t *testing.T) {
 	ts := []string{"1", "2"}
 	conn := RiteRepository{DB: &dataStore{Rites: rs}}
 
-	assert.Equal(t, ts, conn.GetIds())
+	assert.Equal(t, ts, conn.GetTitles())
 }

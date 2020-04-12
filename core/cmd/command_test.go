@@ -41,7 +41,7 @@ func TestGetAllTitlesQuery(t *testing.T) {
 	m := new(RiteRepositoryMock)
 	e := NewEnv(m)
 
-	m.On("GetIds").Return(ts)
+	m.On("GetTitles").Return(ts)
 
 	assert.Equal(t, ts, GetAllTitlesQuery(e))
 	m.AssertExpectations(t)
