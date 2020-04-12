@@ -10,7 +10,7 @@ type RiteRepositoryMock struct {
 	mock.Mock
 }
 
-func (db *RiteRepositoryMock) Save(r *domain.Rite) error {
+func (db *RiteRepositoryMock) Create(r *domain.Rite) error {
 	r.Id = uuid.Nil
 	v := db.Called(r)
 	return v.Error(0)

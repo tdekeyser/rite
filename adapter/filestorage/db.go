@@ -27,6 +27,10 @@ func Open(location string) (*dataStore, error) {
 	return conn, err
 }
 
+func (ds *dataStore) Close() error {
+	return ds.saveToDisk()
+}
+
 func newDb(loc string) *dataStore {
 	err := ioutil.WriteFile(loc+dbName, []byte{}, 0600)
 	if err != nil {

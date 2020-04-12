@@ -11,16 +11,15 @@ type Rite struct {
 	Tags  []string  `json:"tags"`
 }
 
-func NewRite(title string, body string) *Rite {
-	return &Rite{Id: uuid.New(), Title: title, Body: []byte(body)}
+func NewRite(title string, body string, tags ...string) *Rite {
+	return &Rite{Id: uuid.New(), Title: title, Body: []byte(body), Tags: tags}
 }
 
 type RiteRepository interface {
 
-	// Save stores the input Rite such that it can be
+	// Create stores the input Rite such that it can be
 	// retrieved again later.
-	// Save overrides the Rite if it exists already.
-	Save(*Rite) error
+	Create(*Rite) error
 
 	// Get returns a Rite based on a string identifier.
 	Get(string) *Rite

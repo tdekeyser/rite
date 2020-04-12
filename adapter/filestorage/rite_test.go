@@ -16,7 +16,7 @@ func TestDb_Save(t *testing.T) {
 	conn := RiteRepository{DB: &dataStore{}}
 	r := domain.Rite{Title: "1", Body: []byte("hello"), Tags: []string{"a-tag"}}
 
-	err := conn.Save(&r)
+	err := conn.Create(&r)
 	assert.NoError(t, err)
 
 	assertDbContainsExactly(t, r)
@@ -30,24 +30,10 @@ func TestDb_Save_multiple(t *testing.T) {
 	r1 := domain.Rite{Title: "1", Body: []byte("hello"), Tags: []string{"a-tag"}}
 	r2 := domain.Rite{Title: "2", Body: []byte("hi there")}
 
-	assert.NoError(t, conn.Save(&r1))
-	assert.NoError(t, conn.Save(&r2))
+	assert.NoError(t, conn.Create(&r1))
+	assert.NoError(t, conn.Create(&r2))
 
 	assertDbContainsExactly(t, r1, r2)
-
-	assert.NoError(t, os.Remove(dbTest))
-}
-
-func TestDb_Save_overrides_same_title(t *testing.T) {
-	dbName = dbTest
-	conn := RiteRepository{DB: &dataStore{}}
-	r1 := domain.Rite{Title: "1", Body: []byte("hello")}
-	r2 := domain.Rite{Title: "1", Body: []byte("other text")}
-
-	assert.NoError(t, conn.Save(&r1))
-	assert.NoError(t, conn.Save(&r2))
-
-	assertDbContainsExactly(t, r2)
 
 	assert.NoError(t, os.Remove(dbTest))
 }
