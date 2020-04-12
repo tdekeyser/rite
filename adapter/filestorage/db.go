@@ -41,13 +41,13 @@ func openExisting(loc string) (*dataStore, error) {
 		return nil, err
 	}
 
-	var d *dataStore
-	err = json.Unmarshal(f, d)
+	var d dataStore
+	err = json.Unmarshal(f, &d)
 	if err != nil {
-		log.Printf("Could not unmarshal rites: %v", err)
+		log.Printf("Could not unmarshal: %v", err)
 		return nil, err
 	}
-	return d, nil
+	return &d, nil
 }
 
 func (ds *dataStore) saveToDisk() error {
