@@ -13,7 +13,7 @@
 
     <div id="tags">
         {{range .Tags}}
-            <div class="tag">{{.}}</div>
+            <div><span class="tag">{{.}}</span></div>
         {{end}}
         <div>
             <form action="/s/{{.Title}}" method="POST">
