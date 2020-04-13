@@ -2,7 +2,6 @@ package filestorage
 
 import (
 	"github.com/tdekeyser/rite/core/domain"
-	"log"
 )
 
 type RiteRepository struct {
@@ -15,11 +14,7 @@ func NewRiteRepository(db *dataStore) *RiteRepository {
 
 func (repo *RiteRepository) Create(r *domain.Rite) error {
 	repo.DB.Rites = append(repo.DB.Rites, *r)
-	err := repo.DB.saveToDisk()
-	if err != nil {
-		log.Printf("Could not save Rites to disk: %v", err)
-	}
-	return err
+	return nil
 }
 
 func (repo *RiteRepository) Get(title string) *domain.Rite {

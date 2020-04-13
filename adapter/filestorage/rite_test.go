@@ -1,31 +1,24 @@
 package filestorage
 
 import (
-	"encoding/json"
 	"github.com/stretchr/testify/assert"
 	"github.com/tdekeyser/rite/core/domain"
-	"io/ioutil"
-	"os"
 	"testing"
 )
 
 const dbTest = "test_db.json"
 
 func TestDb_Save(t *testing.T) {
-	dbName = dbTest
 	conn := RiteRepository{DB: &dataStore{}}
 	r := domain.Rite{Title: "1", Body: []byte("hello"), Tags: []string{"a-tag"}}
 
 	err := conn.Create(&r)
 	assert.NoError(t, err)
 
-	assertDbContainsExactly(t, r)
-
-	assert.NoError(t, os.Remove(dbTest))
+	assert.Contains(t, conn.DB.Rites, r)
 }
 
 func TestDb_Save_multiple(t *testing.T) {
-	dbName = dbTest
 	conn := RiteRepository{DB: &dataStore{}}
 	r1 := domain.Rite{Title: "1", Body: []byte("hello"), Tags: []string{"a-tag"}}
 	r2 := domain.Rite{Title: "2", Body: []byte("hi there")}
@@ -33,20 +26,7 @@ func TestDb_Save_multiple(t *testing.T) {
 	assert.NoError(t, conn.Create(&r1))
 	assert.NoError(t, conn.Create(&r2))
 
-	assertDbContainsExactly(t, r1, r2)
-
-	assert.NoError(t, os.Remove(dbTest))
-}
-
-func assertDbContainsExactly(t *testing.T, r ...domain.Rite) {
-	f, err := ioutil.ReadFile(dbTest)
-	assert.NoError(t, err)
-
-	var actual dataStore
-	err = json.Unmarshal(f, &actual)
-	assert.NoError(t, err)
-
-	assert.Equal(t, r, actual.Rites)
+	assert.Contains(t, conn.DB.Rites, r1, r2)
 }
 
 func TestDb_Get(t *testing.T) {
