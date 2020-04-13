@@ -1,13 +1,15 @@
 package cmd
 
 import (
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/tdekeyser/rite/core/domain"
 	"testing"
 )
 
 func TestSaveRiteCommand(t *testing.T) {
-	r := &domain.Rite{Title: "1", Body: []byte("hello there")}
+	r := domain.NewRite("1", "hello there")
+	r.Id = uuid.Nil
 	m := new(RiteRepositoryMock)
 	e := NewEnv(m)
 
@@ -59,18 +61,31 @@ func TestAddTagCommand(t *testing.T) {
 	m.AssertExpectations(t)
 }
 
-func TestAddTagCommand_updatesExisting(t *testing.T) {
+func TestAddTagCommand_updatesRite(t *testing.T) {
 	m := new(RiteRepositoryMock)
 	e := NewEnv(m)
 	r := domain.NewRite("1", "hello there")
-	rWithTag := r
-	rWithTag.Tags = []string{"a-tag"}
 
 	m.On("Get", "1").Return(r)
 
 	err := AddTagCommand("1", "a-tag", e)
 	assert.NoError(t, err)
-
 	m.AssertExpectations(t)
-	assert.Equal(t, r, rWithTag)
+
+	assert.True(t, r.Tags["a-tag"])
+}
+
+func TestAddTagCommand_sameTag_notAddedTwice(t *testing.T) {
+	m := new(RiteRepositoryMock)
+	e := NewEnv(m)
+	r := domain.NewRite("1", "hello there", "a-tag")
+
+	m.On("Get", "1").Return(r)
+
+	err := AddTagCommand("1", "a-tag", e)
+
+	assert.NoError(t, err)
+	m.AssertExpectations(t)
+
+	assert.True(t, r.Tags["a-tag"])
 }

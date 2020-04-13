@@ -5,14 +5,28 @@ import "github.com/google/uuid"
 type Tag string
 
 type Rite struct {
-	Id    uuid.UUID `json:"id"`
-	Title string    `json:"title"`
-	Body  []byte    `json:"body"`
-	Tags  []string  `json:"tags"`
+	Id    uuid.UUID       `json:"id"`
+	Title string          `json:"title"`
+	Body  []byte          `json:"body"`
+	Tags  map[string]bool `json:"tags"`
 }
 
 func NewRite(title string, body string, tags ...string) *Rite {
-	return &Rite{Id: uuid.New(), Title: title, Body: []byte(body), Tags: tags}
+	tagSet := make(map[string]bool)
+	r := &Rite{
+		Id:    uuid.New(),
+		Title: title,
+		Body:  []byte(body),
+		Tags:  tagSet,
+	}
+	for _, t := range tags {
+		r.AddTag(t)
+	}
+	return r
+}
+
+func (r *Rite) AddTag(t string) {
+	r.Tags[t] = true
 }
 
 type RiteRepository interface {

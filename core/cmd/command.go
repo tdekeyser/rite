@@ -20,6 +20,6 @@ func AddTagCommand(title string, tag string, e *Env) error {
 		return e.rdb.Create(domain.NewRite(title, "", tag))
 	}
 
-	r.Tags = append(r.Tags, tag)
+	r.AddTag(tag)
 	return nil
 }

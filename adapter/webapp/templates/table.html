@@ -12,8 +12,8 @@
     </div>
 
     <div id="tags">
-        {{range .Tags}}
-            <div><span class="tag">{{.}}</span></div>
+        {{range $k, $v := .Tags}}
+            <div><span class="tag">{{$k}}</span></div>
         {{end}}
         <div>
             <form action="/s/{{.Title}}" method="POST">
