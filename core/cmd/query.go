@@ -13,3 +13,7 @@ func RiteQuery(title string, e *Env) *domain.Rite {
 func AllRiteTitlesQuery(e *Env) []string {
 	return e.rdb.GetTitles()
 }
+
+func AllTagsQuery(e *Env) []domain.Tag {
+	return e.tdb.GetAll()
+}

@@ -2,8 +2,6 @@ package domain
 
 import "github.com/google/uuid"
 
-type Tag string
-
 type Rite struct {
 	Id    uuid.UUID       `json:"id"`
 	Title string          `json:"title"`

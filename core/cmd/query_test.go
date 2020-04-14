@@ -9,7 +9,7 @@ import (
 func TestRiteQuery(t *testing.T) {
 	r := &domain.Rite{Title: "1", Body: []byte("hello there")}
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	e := NewEnv(m, nil)
 
 	m.On("Get", "1").Return(r)
 
@@ -21,7 +21,7 @@ func TestRiteQuery(t *testing.T) {
 
 func TestRiteQuery_none_found_returns_emptyRite(t *testing.T) {
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	e := NewEnv(m, nil)
 
 	m.On("Get", "100").Return(nil)
 

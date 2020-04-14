@@ -33,7 +33,7 @@ func main() {
 
 	r := filestorage.NewRiteRepository(db)
 
-	e := cmd.NewEnv(r)
+	e := cmd.NewEnv(r, nil)
 
 	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, e))
 	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, e))

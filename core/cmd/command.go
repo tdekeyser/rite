@@ -21,5 +21,7 @@ func AddTagCommand(title string, tag string, e *Env) error {
 	}
 
 	r.AddTag(tag)
-	return nil
+
+	t := domain.Tag(tag)
+	return e.tdb.Create(&t)
 }

@@ -11,7 +11,8 @@ func TestSaveRiteCommand(t *testing.T) {
 	r := domain.NewRite("1", "hello there")
 	r.Id = uuid.Nil
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	tm := new(TagRepositoryMock)
+	e := NewEnv(m, tm)
 
 	m.On("Get", r.Title).Return(nil)
 	m.On("Create", r).Return(nil)
@@ -23,7 +24,8 @@ func TestSaveRiteCommand(t *testing.T) {
 
 func TestSaveRiteCommand_updatesExisting(t *testing.T) {
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	tm := new(TagRepositoryMock)
+	e := NewEnv(m, tm)
 
 	r := domain.NewRite("1", "hello there")
 	rUpdated := r
@@ -41,7 +43,8 @@ func TestSaveRiteCommand_updatesExisting(t *testing.T) {
 func TestGetAllTitlesQuery(t *testing.T) {
 	ts := []string{"1", "2"}
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	tm := new(TagRepositoryMock)
+	e := NewEnv(m, tm)
 
 	m.On("GetTitles").Return(ts)
 
@@ -51,41 +54,53 @@ func TestGetAllTitlesQuery(t *testing.T) {
 
 func TestAddTagCommand(t *testing.T) {
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	tm := new(TagRepositoryMock)
+	e := NewEnv(m, tm)
 	r := domain.NewRite("1", "hello there", "a-tag")
+	tag := domain.Tag("a-tag")
 
 	m.On("Get", "1").Return(r)
+	tm.On("Create", &tag).Return(nil)
 
 	err := AddTagCommand("1", "a-tag", e)
 	assert.NoError(t, err)
 	m.AssertExpectations(t)
+	tm.AssertExpectations(t)
 }
 
 func TestAddTagCommand_updatesRite(t *testing.T) {
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	tm := new(TagRepositoryMock)
+	e := NewEnv(m, tm)
 	r := domain.NewRite("1", "hello there")
+	tag := domain.Tag("a-tag")
 
 	m.On("Get", "1").Return(r)
+	tm.On("Create", &tag).Return(nil)
 
 	err := AddTagCommand("1", "a-tag", e)
 	assert.NoError(t, err)
 	m.AssertExpectations(t)
+	tm.AssertExpectations(t)
 
 	assert.True(t, r.Tags["a-tag"])
 }
 
 func TestAddTagCommand_sameTag_notAddedTwice(t *testing.T) {
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m)
+	tm := new(TagRepositoryMock)
+	e := NewEnv(m, tm)
 	r := domain.NewRite("1", "hello there", "a-tag")
+	tag := domain.Tag("a-tag")
 
 	m.On("Get", "1").Return(r)
+	tm.On("Create", &tag).Return(nil)
 
 	err := AddTagCommand("1", "a-tag", e)
 
 	assert.NoError(t, err)
 	m.AssertExpectations(t)
+	tm.AssertExpectations(t)
 
 	assert.True(t, r.Tags["a-tag"])
 }

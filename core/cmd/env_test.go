@@ -29,3 +29,17 @@ func (db *RiteRepositoryMock) GetTitles() []string {
 	v := db.Called()
 	return v.Get(0).([]string)
 }
+
+type TagRepositoryMock struct {
+	mock.Mock
+}
+
+func (db *TagRepositoryMock) Create(t *domain.Tag) error {
+	v := db.Called(t)
+	return v.Error(0)
+}
+
+func (db *TagRepositoryMock) GetAll() []domain.Tag {
+	v := db.Called()
+	return v.Get(0).([]domain.Tag)
+}
