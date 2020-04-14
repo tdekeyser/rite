@@ -13,8 +13,9 @@ import (
 var dbName = "rite_filedb.json"
 
 type dataStore struct {
-	Loc   string        `json:"location"`
-	Rites []domain.Rite `json:"rites"`
+	Loc   string              `json:"location"`
+	Rites []domain.Rite       `json:"rites"`
+	Tags  map[domain.Tag]bool `json:"tags"`
 }
 
 func Open(location string) (*dataStore, error) {
