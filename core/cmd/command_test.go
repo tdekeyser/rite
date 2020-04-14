@@ -45,7 +45,7 @@ func TestGetAllTitlesQuery(t *testing.T) {
 
 	m.On("GetTitles").Return(ts)
 
-	assert.Equal(t, ts, GetAllTitlesQuery(e))
+	assert.Equal(t, ts, AllRiteTitlesQuery(e))
 	m.AssertExpectations(t)
 }
 

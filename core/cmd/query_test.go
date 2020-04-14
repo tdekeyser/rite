@@ -13,7 +13,7 @@ func TestModule_GetRite(t *testing.T) {
 
 	m.On("Get", "1").Return(r)
 
-	actual := GetRiteQuery("1", e)
+	actual := RiteQuery("1", e)
 
 	m.AssertExpectations(t)
 	assert.Equal(t, r, actual)
@@ -25,7 +25,7 @@ func TestModule_GetRite_none_found_returns_emptyRite(t *testing.T) {
 
 	m.On("Get", "100").Return(nil)
 
-	actual := GetRiteQuery("100", e)
+	actual := RiteQuery("100", e)
 
 	m.AssertExpectations(t)
 	assert.Equal(t, &domain.Rite{Title: "100"}, actual)

@@ -2,7 +2,7 @@ package cmd
 
 import "github.com/tdekeyser/rite/core/domain"
 
-func GetRiteQuery(title string, e *Env) *domain.Rite {
+func RiteQuery(title string, e *Env) *domain.Rite {
 	r := e.rdb.Get(title)
 	if r == nil {
 		return &domain.Rite{Title: title}
@@ -10,6 +10,6 @@ func GetRiteQuery(title string, e *Env) *domain.Rite {
 	return r
 }
 
-func GetAllTitlesQuery(e *Env) []string {
+func AllRiteTitlesQuery(e *Env) []string {
 	return e.rdb.GetTitles()
 }

@@ -19,7 +19,7 @@ func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Env), c *cmd.Env
 
 func ViewHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 	t := r.URL.Path[len(View):]
-	rite := cmd.GetRiteQuery(t, e)
+	rite := cmd.RiteQuery(t, e)
 	renderTemplate(w, Table, rite)
 }
 
@@ -46,6 +46,6 @@ func SaveHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 }
 
 func TitlesHandler(w http.ResponseWriter, _ *http.Request, e *cmd.Env) {
-	ts := cmd.GetAllTitlesQuery(e)
+	ts := cmd.AllRiteTitlesQuery(e)
 	renderTemplate(w, Overview, ts)
 }
