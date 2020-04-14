@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestModule_GetRite(t *testing.T) {
+func TestRiteQuery(t *testing.T) {
 	r := &domain.Rite{Title: "1", Body: []byte("hello there")}
 	m := new(RiteRepositoryMock)
 	e := NewEnv(m)
@@ -19,7 +19,7 @@ func TestModule_GetRite(t *testing.T) {
 	assert.Equal(t, r, actual)
 }
 
-func TestModule_GetRite_none_found_returns_emptyRite(t *testing.T) {
+func TestRiteQuery_none_found_returns_emptyRite(t *testing.T) {
 	m := new(RiteRepositoryMock)
 	e := NewEnv(m)
 
