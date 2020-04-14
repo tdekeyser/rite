@@ -9,6 +9,7 @@ const (
 	View = "/v/"
 	Save = "/s/"
 	All  = "/a/"
+	Tags = "/t/"
 )
 
 func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Env), c *cmd.Env) func(http.ResponseWriter, *http.Request) {
@@ -48,4 +49,9 @@ func SaveHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 func TitlesHandler(w http.ResponseWriter, _ *http.Request, e *cmd.Env) {
 	ts := cmd.AllRiteTitlesQuery(e)
 	renderTemplate(w, Overview, ts)
+}
+
+func TagsHandler(w http.ResponseWriter, _ *http.Request, e *cmd.Env) {
+	t := cmd.AllTagsQuery(e)
+	renderTemplate(w, OverviewTags, t)
 }
