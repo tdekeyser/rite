@@ -32,9 +32,8 @@ func main() {
 	deferClose(db)
 
 	r := filestorage.NewRiteRepository(db)
-	t := filestorage.NewTagRepository(db)
 
-	e := cmd.NewEnv(r, t)
+	e := cmd.NewEnv(r)
 
 	http.HandleFunc(webapp.View, webapp.NewHandler(webapp.ViewHandler, e))
 	http.HandleFunc(webapp.Save, webapp.NewHandler(webapp.SaveHandler, e))

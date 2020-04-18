@@ -2,16 +2,16 @@ package cmd
 
 import (
 	"github.com/stretchr/testify/assert"
-	"github.com/tdekeyser/rite/core/domain"
+	"github.com/tdekeyser/rite/core/domain/rite"
 	"testing"
 )
 
 func TestRiteQuery(t *testing.T) {
-	r := &domain.Rite{Title: "1", Body: []byte("hello there")}
+	r := &rite.Rite{Title: "1", Body: []byte("hello there")}
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m, nil)
+	e := NewEnv(m)
 
-	m.On("Get", "1").Return(r)
+	m.On("GetByTitle", "1").Return(*r, true)
 
 	actual := RiteQuery("1", e)
 
@@ -21,12 +21,12 @@ func TestRiteQuery(t *testing.T) {
 
 func TestRiteQuery_none_found_returns_emptyRite(t *testing.T) {
 	m := new(RiteRepositoryMock)
-	e := NewEnv(m, nil)
+	e := NewEnv(m)
 
-	m.On("Get", "100").Return(nil)
+	m.On("GetByTitle", "100").Return(rite.Rite{}, false)
 
 	actual := RiteQuery("100", e)
 
 	m.AssertExpectations(t)
-	assert.Equal(t, &domain.Rite{Title: "100"}, actual)
+	assert.Equal(t, &rite.Rite{Title: "100"}, actual)
 }

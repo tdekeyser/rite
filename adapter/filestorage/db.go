@@ -5,7 +5,7 @@ package filestorage
 
 import (
 	"encoding/json"
-	"github.com/tdekeyser/rite/core/domain"
+	"github.com/tdekeyser/rite/core/domain/rite"
 	"io/ioutil"
 	"log"
 )
@@ -13,16 +13,27 @@ import (
 var dbName = "rite_filedb.json"
 
 type dataStore struct {
-	Loc   string              `json:"location"`
-	Rites []domain.Rite       `json:"rites"`
-	Tags  map[domain.Tag]bool `json:"tags"`
+	Loc   string                       `json:"location"`
+	Rites []rite.Rite                  `json:"rites"`
+	Tags  map[rite.Tag]map[string]bool `json:"tags"`
+}
+
+func newDataStore(loc string) *dataStore {
+	return &dataStore{
+		Loc:  loc,
+		Tags: make(map[rite.Tag]map[string]bool),
+	}
 }
 
 func Open(location string) (*dataStore, error) {
 	conn, err := openExisting(location)
 	if err != nil {
 		log.Print("Creating new database.")
-		return newDb(location), nil
+		err := ioutil.WriteFile(location+dbName, []byte{}, 0600)
+		if err != nil {
+			panic("Error initiating database: " + err.Error())
+		}
+		return newDataStore(location), nil
 	}
 	log.Printf("Found existing database with %v rite(s).", len(conn.Rites))
 	return conn, err
@@ -30,14 +41,6 @@ func Open(location string) (*dataStore, error) {
 
 func (ds *dataStore) Close() error {
 	return ds.saveToDisk()
-}
-
-func newDb(loc string) *dataStore {
-	err := ioutil.WriteFile(loc+dbName, []byte{}, 0600)
-	if err != nil {
-		panic("Error initiating database: " + err.Error())
-	}
-	return &dataStore{Loc: loc}
 }
 
 func openExisting(loc string) (*dataStore, error) {

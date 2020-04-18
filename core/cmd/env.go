@@ -1,12 +1,13 @@
 package cmd
 
-import "github.com/tdekeyser/rite/core/domain"
+import (
+	"github.com/tdekeyser/rite/core/domain/rite"
+)
 
 type Env struct {
-	rdb domain.RiteRepository
-	tdb domain.TagRepository
+	rdb rite.Repository
 }
 
-func NewEnv(rdb domain.RiteRepository, tdb domain.TagRepository) *Env {
-	return &Env{rdb: rdb, tdb: tdb}
+func NewEnv(rdb rite.Repository) *Env {
+	return &Env{rdb: rdb}
 }

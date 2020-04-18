@@ -1,27 +1,21 @@
 package cmd
 
-import "github.com/tdekeyser/rite/core/domain"
+import (
+	"github.com/tdekeyser/rite/core/domain/rite"
+)
 
 func UpdateBodyCommand(title string, body string, e *Env) error {
-	r := e.rdb.Get(title)
-
-	if r == nil {
-		return e.rdb.Create(domain.NewRite(title, body))
+	if r, ok := e.rdb.GetByTitle(title); ok {
+		r.Body = []byte(body)
+		return e.rdb.Update(&r)
 	}
-
-	r.Body = []byte(body)
-	return nil
+	return e.rdb.Create(rite.New(title, body))
 }
 
 func AddTagCommand(title string, tag string, e *Env) error {
-	r := e.rdb.Get(title)
-
-	if r == nil {
-		return e.rdb.Create(domain.NewRite(title, "", tag))
+	if r, ok := e.rdb.GetByTitle(title); ok {
+		r.AddTag(rite.Tag(tag))
+		return e.rdb.Update(&r)
 	}
-
-	r.AddTag(tag)
-
-	t := domain.Tag(tag)
-	return e.tdb.Create(&t)
+	return e.rdb.Create(rite.New(title, "", tag))
 }
