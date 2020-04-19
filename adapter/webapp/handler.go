@@ -2,7 +2,6 @@ package webapp
 
 import (
 	"github.com/tdekeyser/rite/core/cmd"
-	"github.com/tdekeyser/rite/core/domain/rite"
 	"log"
 	"net/http"
 )
@@ -23,11 +22,6 @@ func NewHandler(h func(http.ResponseWriter, *http.Request, *cmd.Env), c *cmd.Env
 func ViewHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
 	t := r.URL.Path[len(View):]
 	rt := cmd.RiteQuery(t, e)
-
-	type TO struct {
-		R rite.Rite
-		C func(rite.Tag) string
-	}
 	renderTemplate(w, Table, rt)
 }
 
