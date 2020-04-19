@@ -25,7 +25,8 @@ func TestRiteRepository_Create_multiple(t *testing.T) {
 	assert.NoError(t, conn.Create(r2))
 
 	assert.Contains(t, conn.DB.Rites, *r1, *r2)
-	assert.Contains(t, conn.DB.Tags["a-tag"], "1", "2")
+	assert.Contains(t, conn.DB.Tags["a-tag"], "1")
+	assert.Contains(t, conn.DB.Tags["a-tag"], "2")
 }
 
 func TestRiteRepository_Update(t *testing.T) {
@@ -79,8 +80,10 @@ func TestRiteRepository_GetTitlesByTag(t *testing.T) {
 	assert.NoError(t, conn.Create(rite.New("2", "", "paper")))
 	assert.NoError(t, conn.Create(rite.New("3", "", "books", "paper")))
 
-	assert.Contains(t, conn.GetTitlesByTag("books"), "1", "3")
-	assert.Contains(t, conn.GetTitlesByTag("paper"), "2", "3")
+	assert.Contains(t, conn.GetTitlesByTag("books"), "1")
+	assert.Contains(t, conn.GetTitlesByTag("books"), "3")
+	assert.Contains(t, conn.GetTitlesByTag("paper"), "2")
+	assert.Contains(t, conn.GetTitlesByTag("paper"), "3")
 	assert.Empty(t, conn.GetTitlesByTag("non-existent"))
 }
 

@@ -2,6 +2,7 @@ package webapp
 
 import (
 	"github.com/tdekeyser/rite/core/cmd"
+	"log"
 	"net/http"
 )
 
@@ -51,7 +52,11 @@ func TitlesHandler(w http.ResponseWriter, _ *http.Request, e *cmd.Env) {
 	renderTemplate(w, Overview, ts)
 }
 
-func TagsHandler(w http.ResponseWriter, _ *http.Request, e *cmd.Env) {
-	t := cmd.AllTagsQuery(e)
+func TagsHandler(w http.ResponseWriter, r *http.Request, e *cmd.Env) {
+	t, err := cmd.AllTagsAndSomeTitleQuery(e)
+	if err != nil {
+		log.Print(err)
+		http.NotFound(w, r)
+	}
 	renderTemplate(w, OverviewTags, t)
 }
