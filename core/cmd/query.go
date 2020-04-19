@@ -6,11 +6,11 @@ import (
 	"math/rand"
 )
 
-func RiteQuery(title string, e *Env) *rite.Rite {
+func RiteQuery(title string, e *Env) rite.Rite {
 	if r, ok := e.rdb.GetByTitle(title); ok {
-		return &r
+		return r
 	}
-	return &rite.Rite{Title: title}
+	return rite.Rite{Title: title}
 }
 
 func AllRiteTitlesQuery(e *Env) []string {

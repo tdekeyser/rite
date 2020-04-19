@@ -15,7 +15,7 @@ func TestRiteQuery(t *testing.T) {
 	actual := RiteQuery("1", e)
 
 	m.AssertExpectations(t)
-	assert.Equal(t, r, actual)
+	assert.Equal(t, *r, actual)
 }
 
 func TestRiteQuery_none_found_returns_emptyRite(t *testing.T) {
@@ -26,7 +26,7 @@ func TestRiteQuery_none_found_returns_emptyRite(t *testing.T) {
 	actual := RiteQuery("100", e)
 
 	m.AssertExpectations(t)
-	assert.Equal(t, &rite.Rite{Title: "100"}, actual)
+	assert.Equal(t, rite.Rite{Title: "100"}, actual)
 }
 
 func TestAllTagsAndSomeTitleQuery(t *testing.T) {
