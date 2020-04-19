@@ -1,6 +1,6 @@
 # rite
 
-![Go](https://github.com/tdekeyser/rite/workflows/Go/badge.svg?branch=master)
+![build](https://github.com/tdekeyser/rite/workflows/build/badge.svg)
 
 Run the package locally in Docker:
 
