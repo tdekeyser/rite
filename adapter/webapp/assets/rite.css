@@ -64,9 +64,7 @@ textarea {
     display: inline-block;
     padding: 2px 5px;
     margin-bottom: 0.5em;
-    background: #56b4f0;
     border-radius: 3px;
-    color: #171717;
     mix-blend-mode: difference;
 }
 
@@ -103,4 +101,5 @@ textarea {
 }
 .overview a {
     color: #56b4f0;
+    text-decoration: none;
 }

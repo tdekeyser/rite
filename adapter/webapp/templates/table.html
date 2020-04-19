@@ -13,7 +13,7 @@
 
     <div id="tags">
         {{range $k, $v := .Tags}}
-            <div><span class="tag">{{$k}}</span></div>
+            <div><span class="tag" style="background: {{str2col $k}}"><span class="tagcol">{{$k}}</span></span></div>
         {{end}}
         <div>
             <form action="/s/{{.Title}}" method="POST">

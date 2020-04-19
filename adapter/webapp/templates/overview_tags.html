@@ -4,11 +4,18 @@
 <div id="body" align="center">
     <div id="page">
         <h4 align="center">/t/</h4>
-        {{range .}}
-            <div class="overview">
-                <a href="/v/{{.Title}}">{{.Tag}}</a>
-            </div>
-        {{end}}
+        <div class="overview">
+
+            {{range .}}
+                <a href="/v/{{.Title}}">
+                    <span class="tag" style="background: {{str2col .Tag}}">
+                        <span class="tagcol">{{.Tag}}</span>
+                    </span>
+                </a>
+            {{end}}
+
+        </div>
+
     </div>
 
 </div>
